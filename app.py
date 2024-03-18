@@ -84,3 +84,98 @@ def signup():
     return render_template('signup.html')
 
 # Run the application…
+from flask import Flask, request, redirect, url_for, render_template
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import login_required
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your-database.db'
+db = SQLAlchemy(app)
+
+# Define the Course model
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+
+# Route to add a new course
+@app.route('/admin/course/new', methods=['GET', 'POST'])
+@login_required
+def add_course():
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        new_course = Course(title=title, description=description)
+        db.session.add(new_course)
+        db.session.commit()
+        return redirect(url_for('admin_dashboard'))
+    return render_template('add_course.html')
+
+# Route to edit an existing course
+@app.route('/admin/course/edit/<int:course_id>', methods=['GET', 'POST'])
+@login_required
+def edit_course(course_id):
+    course = Course.query.get_or_404(course_id)
+    if request.method == 'POST':
+        course.title = request.form['title']
+        course.description = request.form['description']
+        db.session.commit()
+        return redirect(url_for('admin_dashboard'))
+    return render_template('edit_course.html', course=course)
+
+# Route to delete a course
+@app.route('/admin/course/delete/<int:course_id>', methods=['POST'])
+@login_required
+def delete_course(course_id):
+    course = Course.query.get_or_404(course_id)
+    db.session.delete(course)
+    db.session.commit()
+    return redirect(url_for('admin_dashboard'))
+
+# Run the application...
+if __name__ == '__main__':
+    app.run(debug=True)
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///courses.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+
+# Create the database and tables
+with app.app_context():
+    db.create_all()
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+Courses db:
+
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):
+        return f'<Course {self.title}>'
+from flask import Flask
+from your_model_file import db, Course  # Assuming your models are in 'your_model_file.py'
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///courses.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
