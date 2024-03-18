@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 
-app = Flask(__name__)
+app = Flask(_EduBlock_)
 #Admin flask login:
 app.secret_key = 'your_secret_key'  # Change this to a random secret key
 
@@ -70,7 +70,7 @@ def course(course_id):
     }
     return render_template('course.html', course=course)
 
-if __name__ == '__main__':
+if _EduBlock_ == '__main__':
     app.run(debug=True)
     
 # Existing routes...
@@ -88,7 +88,7 @@ from flask import Flask, request, redirect, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_required
 
-app = Flask(__name__)
+app = Flask(_EduBlock_)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your-database.db'
 db = SQLAlchemy(app)
 
@@ -133,12 +133,12 @@ def delete_course(course_id):
     return redirect(url_for('admin_dashboard'))
 
 # Run the application...
-if __name__ == '__main__':
+if _EduBlock_ == '__main__':
     app.run(debug=True)
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+app = Flask(_EduBlock_)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///courses.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -152,7 +152,7 @@ class Course(db.Model):
 with app.app_context():
     db.create_all()
 
-if __name__ == '__main__':
+if _EduBlock_ == '__main__':
     app.run(debug=True)
 
 
@@ -172,7 +172,7 @@ class Course(db.Model):
 from flask import Flask
 from your_model_file import db, Course  # Assuming your models are in 'your_model_file.py'
 
-app = Flask(__name__)
+app = Flask(_EduBlock_)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///courses.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
