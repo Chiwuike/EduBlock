@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -25,3 +25,15 @@ def course(course_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+# Existing routes...
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        # Here you would handle the sign-up logic, such as saving the user data
+        # For now, let's just redirect to the home page after sign-up
+        return redirect(url_for('home'))
+    return render_template('signup.html')
+
+# Run the application…
