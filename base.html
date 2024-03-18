@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... -->
+    <title>{% block title %}EduBlock{% endblock %}</title>
+    <!-- ... -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">EduBlock</a>
+        <!-- ... -->
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        <!-- Content will be injected here -->
+        {% endblock %}
+    </div>
+
+    <!-- ... -->
+</body>
+</html>
